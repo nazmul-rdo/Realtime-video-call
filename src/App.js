@@ -13,6 +13,8 @@ function ParticipantView(props) {
   const micRef = useRef(null);
   const { webcamStream, micStream, webcamOn, micOn, isLocal, displayName } =
     useParticipant(props.participantId);
+    
+console.log(props.participantId);
 
   const videoStream = useMemo(() => {
     if (webcamOn && webcamStream) {
@@ -77,10 +79,9 @@ const joinMeeting = () => {
   setJoined("JOINING");
   join();
 };
-
 return (
   <div className="container">
-    {joined && joined == "JOINED" ? (
+    {joined && joined === "JOINED" ? (
       <div>
         {[...participants.keys()].map((participantId) => (
           <ParticipantView
@@ -89,13 +90,27 @@ return (
           />
         ))}
       </div>
-    ) : joined && joined == "JOINING" ? (
+    ) : joined && joined === "JOINING" ? (
       <p>Joining the meeting...</p>
     ) : (
-      <button onClick={joinMeeting}>Join the meeting</button>
+      
+
+      <Home joinMeeting={joinMeeting} />
+      
     )}
   </div>
 );
+}
+
+const Home =({joinMeeting, participantId})=>{
+  return(
+    <>
+    
+    <button onClick={joinMeeting}>Join the meeting</button>
+  
+    
+    </>
+  )
 }
 
 
@@ -111,7 +126,7 @@ const App = () => {
         webcamEnabled: true,
         name: "Nazmul's Org",
       }}
-      token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiIwM2FkYjgwYi03MTk1LTRkMWYtODdkNy1hNDA3ODg5MTdiNDQiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTcwNTc2MDM4MiwiZXhwIjoxNzA1ODQ2NzgyfQ.BYghAuEKNm7PmYfdxoAgyKT7vVOHS5_Onc6_jwaiuxs"
+      token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiIwM2FkYjgwYi03MTk1LTRkMWYtODdkNy1hNDA3ODg5MTdiNDQiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTcwNTk4NDg2MSwiZXhwIjoxNzIxNTM2ODYxfQ.RYGhEzPaVtD_DGg-uX8yklHaaffjLgEnngAU9m5nJDU"
     >
       <MeetingView />
     </MeetingProvider>
